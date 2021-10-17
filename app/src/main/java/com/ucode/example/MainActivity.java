@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String[] title = new String[] {"Item 1", "Item 2", "Item 3"};
+        String[] title = new String[] {"Thử font 1", "Thử font 2", "Thử font 3"};
         SimpleSegmentedControl segmentedControl = findViewById(R.id.segment);
         segmentedControl.setSegmentTitles(title);
         segmentedControl.setCallback(new SimpleSegmentedControl.Callback() {

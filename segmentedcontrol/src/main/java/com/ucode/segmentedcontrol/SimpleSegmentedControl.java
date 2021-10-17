@@ -97,7 +97,7 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
             borderWidth = array.getDimensionPixelSize(R.styleable.SimpleSegmentedControl_segmentBorderWidth, dp2px(DEFAULT_BORDER_WIDTH));
             fontId = array.getResourceId(R.styleable.SimpleSegmentedControl_segmentTitleFont, 0);
             useDivider = array.getBoolean(R.styleable.SimpleSegmentedControl_segmentUseDivier, true);
-            textSize = array.getDimensionPixelSize(R.styleable.SimpleSegmentedControl_segmentTitlteTextSize, 16);
+            textSize = array.getDimensionPixelSize(R.styleable.SimpleSegmentedControl_segmentTitleTextSize, 16);
 
             array.recycle();
         }

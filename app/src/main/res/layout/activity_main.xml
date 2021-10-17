@@ -21,7 +21,8 @@
         app:segmentColorTextNormal="@android:color/holo_blue_dark"
         app:segmentColorTextSelected="@android:color/white"
         app:segmentUseDivier="false"
-        app:segmentTitlteTextSize="16sp"
+        app:segmentTitleTextSize="16sp"
+        app:segmentTitleFont="@font/sf_pro_display"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

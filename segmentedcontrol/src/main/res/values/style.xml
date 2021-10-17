@@ -8,8 +8,8 @@
         <attr name="segmentColorTextNormal" format="reference|color"/>
         <attr name="segmentColorTextSelected" format="reference|color"/>
         <attr name="segmentUseDivier" format="boolean"/>
-        <attr name="segmentTitleFont" format="string"/>
-        <attr name="segmentTitlteTextSize" format="dimension"/>
+        <attr name="segmentTitleFont" format="reference"/>
+        <attr name="segmentTitleTextSize" format="dimension"/>
     </declare-styleable>
 
 </resources>
