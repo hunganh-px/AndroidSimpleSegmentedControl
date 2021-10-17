@@ -8,17 +8,20 @@
 
     <com.ucode.segmentedcontrol.SimpleSegmentedControl
         android:id="@+id/segment"
-        android:layout_width="300dp"
-        android:layout_height="64dp"
+        android:layout_width="320dp"
+        android:layout_height="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:segmentCornerRadius="16dp"
-        app:segmentBorderWidth="4dp"
+        app:segmentCornerRadius="6dp"
+        app:segmentBorderWidth="1dp"
         app:segmentSelectedColor="@android:color/holo_blue_dark"
+        app:segmentPressedColor="@android:color/darker_gray"
         app:segmentColorTextNormal="@android:color/holo_blue_dark"
         app:segmentColorTextSelected="@android:color/white"
+        app:segmentUseDivier="false"
+        app:segmentTitlteTextSize="16sp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

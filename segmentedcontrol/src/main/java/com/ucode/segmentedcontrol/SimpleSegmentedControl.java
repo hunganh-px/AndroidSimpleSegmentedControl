@@ -8,11 +8,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.text.LineBreaker;
-import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.GestureDetector;
@@ -20,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GestureDetectorCompat;
 
 public class SimpleSegmentedControl extends View implements GestureDetector.OnGestureListener {
@@ -34,7 +32,8 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
     private int pressedColor = Color.GRAY;
     private int textColor;
     private int textSelectedColor;
-
+    private int fontId;
+    private boolean useDivider;
 
     private int borderWidth = 1;
 
@@ -64,6 +63,7 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
 
     private StaticLayout staticLayout;
     private Callback callback;
+    private float textSize;
 
     public SimpleSegmentedControl(Context context) {
         super(context);
@@ -95,6 +95,9 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
             textColor = array.getColor(R.styleable.SimpleSegmentedControl_segmentColorTextNormal, Color.GRAY);
             textSelectedColor = array.getColor(R.styleable.SimpleSegmentedControl_segmentColorTextSelected, Color.WHITE);
             borderWidth = array.getDimensionPixelSize(R.styleable.SimpleSegmentedControl_segmentBorderWidth, dp2px(DEFAULT_BORDER_WIDTH));
+            fontId = array.getResourceId(R.styleable.SimpleSegmentedControl_segmentTitleFont, 0);
+            useDivider = array.getBoolean(R.styleable.SimpleSegmentedControl_segmentUseDivier, true);
+            textSize = array.getDimensionPixelSize(R.styleable.SimpleSegmentedControl_segmentTitlteTextSize, 16);
 
             array.recycle();
         }
@@ -103,10 +106,12 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
         borderPaint.setColor(color);
         borderPaint.setStrokeWidth(borderWidth);
         borderPaint.setStyle(Paint.Style.STROKE);
+        borderPaint.setAntiAlias(true);
 
         selectedPaint = new Paint();
         selectedPaint.setColor(color);
         selectedPaint.setStyle(Paint.Style.FILL);
+        selectedPaint.setAntiAlias(true);
 
         pressedPaint = new Paint();
         pressedPaint.setStyle(Paint.Style.FILL);
@@ -114,7 +119,10 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
 
         titlePaint = new TextPaint();
         titlePaint.setAntiAlias(true);
-        titlePaint.setTextSize(sp2px(16));
+        titlePaint.setTextSize(textSize);
+        if (fontId>0) {
+            titlePaint.setTypeface(ResourcesCompat.getFont(getContext(), fontId));
+        }
 
         gestureDetector = new GestureDetectorCompat(getContext(), this);
 
@@ -153,6 +161,7 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
         boundPath.addRoundRect(borderRect, cornerRadius, cornerRadius, Path.Direction.CW);
         borderPath.addRoundRect(borderRect, cornerRadius, cornerRadius, Path.Direction.CW);
 
+        invalidate();
     }
 
     @Override
@@ -163,13 +172,15 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
         canvas.drawPath(borderPath, borderPaint);
         drawSelectedRectangle(canvas);
         drawTitles(canvas);
+        if (useDivider) {
+            drawDividers(canvas);
+        }
     }
 
     private void drawPressedRectangle(Canvas canvas) {
         if (pressedIndex > -1) {
             pressedPaint.setColor(pressedColor);
             pressedRect.set(pressedIndex * segmentWidth, 0, (pressedIndex + 1) * segmentWidth, viewHeight);
-            pressedRect.inset(borderWidth, borderWidth);
             canvas.drawRect(pressedRect, pressedPaint);
         }
     }
@@ -178,7 +189,6 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
         if (selectedIndex > -1) {
             selectedPaint.setColor(color);
             selectedRect.set(selectedIndex * segmentWidth, 0, (selectedIndex + 1) * segmentWidth, viewHeight);
-            selectedRect.inset(borderWidth, borderWidth);
             canvas.drawRect(selectedRect, selectedPaint);
         }
     }
@@ -192,10 +202,17 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
 //                    .setAlignment(Layout.Alignment.ALIGN_CENTER)
 //                    .setBreakStrategy(LineBreaker.BREAK_STRATEGY_SIMPLE).build();
 //            staticLayout.draw(canvas);
-            titlePaint.setColor(i==selectedIndex ? textSelectedColor : textColor);
+            titlePaint.setColor(i == selectedIndex ? textSelectedColor : textColor);
             titlePaint.getTextBounds(text, 0, text.length(), textBound);
-            canvas.drawText(text, (segmentWidth*(i+0.5f))-textBound.width()/2f, viewHeight/2f+textBound.height()/2f, titlePaint);
+            canvas.drawText(text, (segmentWidth * (i + 0.5f)) - textBound.width() / 2f, viewHeight / 2f + textBound.height() / 2f, titlePaint);
 
+        }
+    }
+
+    private void drawDividers(Canvas canvas) {
+        if (segmentTitles.length == 1) return;
+        for (int i = 1; i < segmentTitles.length; i++) {
+            canvas.drawLine(segmentWidth*i, borderRect.top, segmentWidth*i, borderRect.bottom, borderPaint);
         }
     }
 
@@ -209,6 +226,7 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
         int pressingIndex = findTouchIndex(motionEvent);
         if (pressingIndex != selectedIndex) {
             pressedIndex = pressingIndex;
+            invalidateDrawing();
         }
         return true;
     }
@@ -260,7 +278,7 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
             }
         }
         pressedIndex = -1;
-        invalidate();
+        invalidateDrawing();
     }
 
     public interface Callback {
