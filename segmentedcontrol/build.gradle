@@ -44,7 +44,7 @@ afterEvaluate {
                 from components.release
                 groupId='com.github.hunganh-px'
                 artifactId='segmentedcontrol'
-                version='1.0'
+                version='1.0.1'
             }
         }
     }
