@@ -43,8 +43,8 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
                 groupId='com.github.hunganh-px'
-                artifactId='segmentedcontrol'
-                version='1.0.1'
+                artifactId='AndroidSimpleSegmentedControl'
+                version='v1.0.2'
             }
         }
     }
