@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SimpleSegmentedControl">
+        <attr name="segmentPressedColor" format="reference|color"/>
+        <attr name="segmentSelectedColor" format="reference|color"/>
+        <attr name="segmentCornerRadius" format="dimension"/>
+        <attr name="segmentBorderWidth" format="dimension"/>
+        <attr name="segmentColorTextNormal" format="reference|color"/>
+        <attr name="segmentColorTextSelected" format="reference|color"/>
+    </declare-styleable>
+
+</resources>
