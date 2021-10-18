@@ -204,7 +204,9 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
 //            staticLayout.draw(canvas);
             titlePaint.setColor(i == selectedIndex ? textSelectedColor : textColor);
             titlePaint.getTextBounds(text, 0, text.length(), textBound);
-            canvas.drawText(text, (segmentWidth * (i + 0.5f)) - textBound.width() / 2f, viewHeight / 2f + textBound.height() / 2f, titlePaint);
+            float x =(segmentWidth * (i + 0.5f)) - textBound.width() / 2f;
+            float y = (canvas.getHeight() / 2f) - ((titlePaint.descent() + titlePaint.ascent()) / 2f) ;
+            canvas.drawText(text, x, y, titlePaint);
 
         }
     }
