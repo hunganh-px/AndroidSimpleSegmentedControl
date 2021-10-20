@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.ucode.segmentedcontrol.SimpleSegmentedControl;
 
@@ -22,8 +23,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSegmentSelected(int index) {
                 Log.d(TAG, "onSegmentSelected: "+index);
+                ((TextView)findViewById(R.id.text)).setText(""+segmentedControl.getSelected());
             }
         });
+        segmentedControl.setSelected(2);
 
     }
 }

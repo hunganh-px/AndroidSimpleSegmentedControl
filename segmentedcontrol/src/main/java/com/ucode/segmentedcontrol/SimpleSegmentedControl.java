@@ -58,7 +58,7 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
 
     private Rect textBound;
 
-    private int pressedIndex;
+    private int pressedIndex=-1;
     private int selectedIndex = 0;
 
     private StaticLayout staticLayout;
@@ -327,6 +327,15 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
 
     public void setSegmentWidth(int segmentWidth) {
         this.segmentWidth = segmentWidth;
+    }
+
+    public void setSelected(int selected) {
+        this.selectedIndex = selected;
+        invalidate();
+    }
+
+    public int getSelected() {
+        return selectedIndex;
     }
 
     public void setCallback(Callback callback) {
