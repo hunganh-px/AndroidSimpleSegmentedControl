@@ -64,6 +64,7 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
     private StaticLayout staticLayout;
     private Callback callback;
     private float textSize;
+    private boolean b;
 
     public SimpleSegmentedControl(Context context) {
         super(context);
@@ -161,6 +162,8 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
         boundPath.addRoundRect(borderRect, cornerRadius, cornerRadius, Path.Direction.CW);
         borderPath.addRoundRect(borderRect, cornerRadius, cornerRadius, Path.Direction.CW);
 
+        pressedPaint.setColor(Color.TRANSPARENT);
+
         invalidate();
     }
 
@@ -220,7 +223,12 @@ public class SimpleSegmentedControl extends View implements GestureDetector.OnGe
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return gestureDetector.onTouchEvent(event);
+        b = gestureDetector.onTouchEvent(event);
+        if (event.getAction()==MotionEvent.ACTION_UP) {
+            pressedIndex = -1;
+            invalidateDrawing();
+        }
+        return b;
     }
 
     @Override
